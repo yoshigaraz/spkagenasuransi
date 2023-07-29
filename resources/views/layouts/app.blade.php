@@ -19,6 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="css/datatables.min.css" rel="stylesheet">
 
 </head>
 
@@ -135,6 +136,8 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+
+    <script src="js/datatables.min.js"></script>
     @if (session()->has('message'))
     <script>
         $(function(){

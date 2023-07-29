@@ -58,4 +58,17 @@ class AlternativeController extends Controller
             return redirect()->back()->with(["message" => "Delete Data sukses"]);
         }
     }
+
+    public function getAlternativeByCriteria(Request $request)
+    {
+        $alternative = Alternative::where('criteria_id', $request->criteria)
+            ->orderBy('id')
+            ->get();
+
+        if ($request->ajax()){
+            $data = view('components.alternative_select', compact('alternative'))->render();
+            return response()->json(['options' => $data]);
+        }
+        return response()->json(['alternative' => $alternative], 200);
+    }
 }

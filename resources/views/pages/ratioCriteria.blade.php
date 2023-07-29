@@ -74,14 +74,14 @@
                                 <button type="submit" class="btn btn-primary mb-3">Tambah</button>
                             </div>
                         </form>
-                        <table class="table">
+                        <table class="table" id="tbratio">
                             <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th scope="col" width="20">#</th>
                                 <th scope="col">Kriteria 1</th>
                                 <th scope="col">Kriteria 2</th>
                                 <th scope="col">Value</th>
-                                <th scope="col">Aksi</th>
+                                <th scope="col" width="20">Aksi</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -271,6 +271,8 @@
 
 @section('js')
     <script>
+        new DataTable('#tbratio');
+
         $('#exampleModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var datas = button.data('whatever') // Extract info from data-* attributes

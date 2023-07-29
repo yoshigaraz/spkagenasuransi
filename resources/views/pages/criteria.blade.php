@@ -44,7 +44,7 @@
                                 <button type="submit" class="btn btn-primary mb-3">Tambah</button>
                             </div>
                         </form>
-                        <table class="table">
+                        <table class="table" id="table">
                             <thead>
                             <tr>
                                 <th scope="col" width="5">#</th>
@@ -79,4 +79,9 @@
         </div>
     </div>
     <!-- /.container-fluid -->
+@endsection
+@section('js')
+    <script>
+        new DataTable('#table');
+    </script>
 @endsection

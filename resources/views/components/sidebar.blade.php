@@ -74,7 +74,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Perhitungan Alternatif:</h6>
                         <a class="collapse-item" href="{{route('alternative')}}">Master Alternatif</a>
-                        <!-- <a class="collapse-item" href={{route('ratioAlternative')}}>Perbandingan Alternatif</a> -->
+                        <a class="collapse-item" href={{route('ratioAlternative')}}>Perbandingan Alternatif</a>
                         <a class="collapse-item" href="{{route('resultAlternative')}}">Hasil hitung Alternatif</a>
                     </div>
                 </div>

@@ -57,6 +57,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/alternative/', [AlternativeController::class, 'index'])->name('alternative');
     Route::post('/addAlternative', [AlternativeController::class, 'store'])->name('addAlternative');
     Route::get('/deleteAlternative/{alternative}', [AlternativeController::class, 'destroy'])->name('deleteAlternative');
+    Route::get('/alternativeByCriteria', [AlternativeController::class, 'getAlternativeByCriteria'])->name('alternativeByCriteria');
 
 //    Route::get('/criteria_comparison', [CriteriaController::class, 'index'])->name('criteria_comparison');
 //    Route::post('/addCriteriaComparison', [CriteriaController::class, 'store'])->name('addCriteriaComparison');
@@ -66,6 +67,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/addRatioCriteria', [CriteriaController::class, 'storeRatio'])->name('addRatioCriteria');
     Route::post('/massRatioCriteria', [CriteriaController::class, 'massUpdate'])->name('massRatioCriteria');
     Route::get('/deleteRatioCriteria/{v_id}/{h_id}', [RatioCriteriaController::class, 'destroy'])->name('deleteRatioCriteria');
+
+    Route::get('/ratioAlternative', [RatioAlternativeController::class, 'index'])->name('ratioAlternative');
+    Route::post('/addRatioAlternative', [RatioAlternativeController::class, 'store'])->name('addRatioAlternative');
+    Route::post('/massRatioAlternative', [RatioAlternativeController::class, 'massUpdate'])->name('massRatioAlternative');
+    Route::get('/deleteRatioAlternative/{v_id}/{h_id}', [RatioAlternativeController::class, 'destroy'])->name('deleteRatioAlternative');
 
     Route::get('/payout', [PayoutController::class, 'index'])->name('payout');
     Route::get('/filterpayout', [PayoutController::class, 'show'])->name('filterpayout');
