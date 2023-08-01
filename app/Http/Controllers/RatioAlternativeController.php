@@ -55,14 +55,24 @@ class RatioAlternativeController extends Controller
         foreach ($criteria as $c) {
             $c->alternative = Alternative::where('criteria_id', $c->id)->orderBy('id')->get();
 //            $matrixRatioRow = self::showAlternative($c->alternative);
-            $c->matrix = self::showAlternative($c);
+            $dataMatrix = self::showAlternative($c);
+            $c->matrix = $dataMatrix;
+            $eigen = self::eigen($dataMatrix);
+            $c->eigen = $eigen;
+            Log::debug(json_encode($c->eigen));
+            $sumCol = 0;
+            if ($dataMatrix)
+                $sumCol = $dataMatrix['sumCol'];
+
+            $lamda = self::lamda($sumCol, $eigen);
+            $c->lamda = $lamda;
         }
 
         $ratio = self::data();
 
         $data = (object)[
             'criteria' => $criteria,
-            'ratio' => $ratio,
+            'ratio' => $ratio
         ];
 
         return view('pages.ratioAlternative')->with('data', $data);
@@ -127,35 +137,120 @@ class RatioAlternativeController extends Controller
     {
         $alternative = Alternative::where('criteria_id', $criteria->id)->orderBy('id')->get();
         $matrix = array();
+        $eigen = array();
 
-        foreach ($alternative as $keyRow => $altRow) {
-            $col = array();
-            array_push($col, $altRow->description);
-            $jumlah = 0;
-            $jumArray = array();
-            foreach ($alternative as $keyCol => $altCol) {
-                $ratio = Ratio_alternative::where("v_alternative_id", $altRow->id)
-                    ->where("h_alternative_id", $altCol->id)->first();
-                if ($ratio) {
-                    $val = $ratio->value;
-                    if ($jumlah != 'Data belum lengkap') {
-                        $jumlah = $jumlah + $val;
-                    } else {
-                        $jumlah = 'Data belum lengkap';
-                    }
+        foreach ($alternative as $matrixColumn) {
+            $column = $matrixColumn['id'];
+            $nameColumn = $matrixColumn['description'];
+
+            foreach ($alternative as $matrixRow) {
+                $row = $matrixRow['id'];
+                $nameRow = $matrixRow['description'];
+
+                $dataRatio = Ratio_alternative::where("v_alternative_id", $column)
+                    ->where("h_alternative_id", $row)
+                    ->select('value')
+                    ->first();
+
+                if ($dataRatio) {
+//                    $value = $dataRatio->select('value')->first();
+                    $value = $dataRatio->value;
                 } else {
-                    $val = 'N/A';
-                    $jumlah = 'Data belum lengkap';
+                    $value = "N/A";
                 }
-                array_push($col, $val);
-                array_push($jumArray, $jumlah);
+                $matrix[$nameRow][$nameColumn] = $value;
             }
-            array_push($matrix, $col);
         }
 
-        return $matrix;
+        foreach ($matrix as $columnName => $columnVal) {
+            $devider = self::sumMatrix($columnVal);
+
+            foreach ($columnVal as $valueName => $valueMatrix) {
+                if ($devider == "Data belum lengkap")
+                    $count = $devider;
+                else
+                    $count = $valueMatrix / (int)$devider;
+
+                $eigen[$columnName][$valueName] = $count;
+            }
+            $matrix[$columnName] = array_merge($columnVal, array('sumCol' => $devider));
+        }
+
+        return RatioCriteriaController::reverseMatrix($matrix);
     }
 
+    public static function eigen($array): array
+    {
+        $data = array();
+
+        foreach (RatioCriteriaController::reverseMatrix($array) as $key => $value) {
+            $sumEigen = 0;
+            $devieder = $value['sumCol'];
+            foreach ($value as $name => $eigenVal) {
+                if ($name == 'sumCol') {
+                    continue;
+                }
+                if ($devieder == "Data belum lengkap") {
+                    $data[$key][$name] = "N/A";
+                    $sumEigen = 0;
+                } else {
+                    $counted = $eigenVal / $devieder;
+                    $data[$key][$name] = $counted;
+                    $sumEigen += $counted;
+                }
+            }
+            $data[$key]['sumEigen'] = $sumEigen;
+        }
+
+        foreach (RatioCriteriaController::reverseMatrix($data) as $columnName => $columnVal) {
+            $devider = self::sumMatrix($columnVal);
+
+            $data[$columnName] = array_merge($columnVal, array('totalEigen' => $devider));
+        }
+
+        return $data;
+    }
+
+    public static function lamda($arraysumCOl, $arrayEigen)
+    {
+        $sumCol = $arraysumCOl;
+        $avgEigen = array();
+        $sumLamda = 0;
+        foreach ($arrayEigen as $nameAlternative => $value) {
+            Log::debug("-----------" . $nameAlternative);
+            if ($nameAlternative == 'sumEigen') {
+                continue;
+            }
+            $dataQuantity = (count($value) - 1);
+//            $avgEigen[$nameAlternative] = $value['totalEigen'] / $dataQuantity;
+            $avgEigen[$nameAlternative] = self::getAverage($value['totalEigen'], $dataQuantity);
+//            Log::debug("avgeigen " . $avgEigen[$nameAlternative]);
+//            $lamda[$nameAlternative] = $avgEigen[$nameAlternative] * $sumCol[$nameAlternative];
+            $lamda[$nameAlternative] = self::getMultiply($avgEigen[$nameAlternative], $sumCol[$nameAlternative]);
+//            Log::debug("nameAlternative " . $lamda[$nameAlternative] . " " . "sumLamda " . $sumLamda);
+            if (is_numeric($lamda[$nameAlternative]) && is_numeric($sumLamda)) {
+                $sumLamda += $lamda[$nameAlternative];
+                $CI = ($sumLamda - $dataQuantity) / ($dataQuantity - 1);
+                $constant = round($CI / self::IR[$dataQuantity - 2], 5);
+            } else {
+                $sumLamda = "N/A";
+                $CI = "N/A";
+                $constant = "N/A";
+            }
+
+        }
+
+
+        return [
+            "avgEigen" => $avgEigen,
+            "sumCol" => $sumCol,
+            "rawlamda" => $lamda,
+            "sumLamda" => $sumLamda,
+            "CI" => $CI,
+            "constant" => $constant,
+            "IR" => self::IR[$dataQuantity - 2]
+        ];
+    }
 
     public function massUpdate(Request $request)
     {
@@ -224,13 +319,10 @@ class RatioAlternativeController extends Controller
 
     public function getTotalRatio($alternative, $alt)
     {
-//        Log::debug("------cat " . $cat);
         $jumlah = 0;
         foreach ($alternative as $key => $val) {
             $ratio = Ratio_alternative::where("v_alternative_id", $val['id'])
                 ->where("h_alternative_id", $alt)->first();
-
-//            Log::debug(json_encode($ratio));
 
             if (!$ratio) {
                 return "Data Belum Lengkap";
@@ -242,12 +334,63 @@ class RatioAlternativeController extends Controller
         return $jumlah;
     }
 
-    public function getEigen($alternative)
+    public static function getTotalRatioByAlt($alt)
     {
-        foreach ($alternative as $alt1) {
-            foreach ($alternative as $alt1) {
+        $ratio = Ratio_alternative::where("h_alternative_id", $alt)->sum('value');
+        return $ratio;
+    }
 
+    public static function sumMatrixWithHeader($array)
+    {
+        try {
+            $total = 0;
+            foreach ($array as $key => $value) {
+                if ($key == 0) {
+                    continue;
+                }
+                $total += $value;
             }
+
+            return $total;
+        } catch (\Exception $e) {
+            Log::debug($e->getMessage());
+            return "Data belum lengkap";
+        }
+    }
+
+    public static function sumMatrix($array)
+    {
+        try {
+            $total = 0;
+            foreach ($array as $key => $value) {
+                $total += $value;
+            }
+
+            return $total;
+        } catch (\Exception $e) {
+            Log::debug($e->getMessage());
+            return "Data belum lengkap";
+        }
+
+    }
+
+    public static function getAverage($value, $divider)
+    {
+        try {
+            return round($value / $divider, 3);
+        } catch (\Exception $e) {
+            Log::debug($e->getMessage());
+            return "N/A";
+        }
+    }
+
+    public static function getMultiply($value1, $value2)
+    {
+        try {
+            return $value1 * $value2;
+        } catch (\Exception $e) {
+            Log::debug($e->getMessage());
+            return "N/A";
         }
     }
 }

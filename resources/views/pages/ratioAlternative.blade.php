@@ -123,48 +123,113 @@
                         <div class="card-body">
                             <div class="row">
                                 <table class="table">
+                                    <thead>
                                     <tr>
-                                        <th>#</th>
-                                        @foreach($criteria->alternative as $key => $val)
-                                            <th>{{$val['description']}}</th>
+                                        <th scope="col">#</th>
+                                        @foreach($criteria->matrix as $key => $props)
+                                            @if ($key != 'sumCol')
+                                                <th class="text-center" scope="col">{{ $key  }}</th>
+                                            @endif
                                         @endforeach
                                     </tr>
+                                    </thead>
                                     @foreach($criteria->matrix as $key => $val)
                                         <tr>
+                                            @if ($key != 'sumCol')
+                                                <th scope="col">{{ $key }}
+                                            @else
+                                                <th scope="col">Jumlah
+                                            @endif
                                             @foreach($val as $k => $value)
-                                                @if($k == 0)
-                                                    <th>{{$value}}</th>
+                                                @if ($key == 'sumCol')
+                                                    <th class="text-center">{{$value}}</th>
                                                 @else
-                                                    <td @if($value == 'N/A') style="color: red" @endif>{{$value}}</td>
+                                                    <td class="text-center"
+                                                        @if($value == 'N/A') style="color: red" @endif>{{$value}}</td>
                                                 @endif
                                             @endforeach
                                         </tr>
                                     @endforeach
-                                    <tr>
-                                        <th>Jumlah</th>
-                                        @foreach($criteria->alternative as $key => $val)
-                                            <th>{{\App\Http\Controllers\RatioAlternativeController::getTotalRatio($criteria->alternative,$val['id'])}}</th>
-                                        @endforeach
-                                    </tr>
                                 </table>
                             </div>
                             <h6 class="m-0 font-weight-bold text-primary">Nilai Eigen
                                 Kriteria {{$criteria->name}}</h6>
                             <div class="row">
                                 <table class="table">
+                                    <thead>
                                     <tr>
-                                        <th>#</th>
-                                        @foreach($criteria->alternative as $key => $val)
-                                            <th>{{$val['description']}}</th>
+                                        <th scope="col">#</th>
+                                        @foreach($criteria->eigen as $key => $props)
+                                            @if ($key == 'sumEigen')
+                                                <th class="text-center" scope="col">Jumlah</th>
+                                                <th class="text-center" scope="col">Prioritas</th>
+                                                {{--<th class="text-center" scope="col">Eigen Value</th>--}}
+                                            @else
+                                                <th class="text-center" scope="col">{{ $key  }}</th>
+                                            @endif
                                         @endforeach
                                     </tr>
-                                    {{--@foreach($criteria->matrix as $key => $val)--}}
-                                    {{--<tr>--}}
-                                    {{--@foreach($val as $value)--}}
-                                    {{--<td>{{$value}}</td>--}}
-                                    {{--@endforeach--}}
-                                    {{--</tr>--}}
-                                    {{--@endforeach--}}
+                                    </thead>
+                                    <tbody>
+                                    @foreach($criteria->eigen as $keyName => $val)
+                                        <tr>
+                                            @if ($keyName != 'sumEigen')
+                                                <th scope="col">{{ $keyName }}</th>
+                                            @else
+                                                <th scope="col">Total</th>
+                                            @endif
+                                            @foreach($val as $key => $valueMatrix)
+                                                @if ($key == 'totalEigen')
+                                                    <td class="text-center">
+                                                        @if(is_numeric($valueMatrix))
+                                                            {{  round($valueMatrix, 3) }}
+                                                        @else
+                                                            {{$valueMatrix}}
+                                                        @endif
+                                                    </td>
+                                                    <?php
+                                                    $avg = \App\Http\Controllers\RatioAlternativeController::getAverage($valueMatrix, $criteria->eigen['sumEigen']['totalEigen']);
+                                                    ?>
+                                                    <td class="text-center">{{$avg}}</td>
+                                                @else
+                                                    <td class="text-center">
+                                                        @if(is_numeric($valueMatrix))
+                                                            {{  round($valueMatrix, 3) }}
+                                                        @else
+                                                            {{$valueMatrix}}
+                                                        @endif
+                                                    </td>
+                                                @endif
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
+                                    <tr class="text-center">
+                                        <td colspan='{{(count($criteria->eigen) + 1)}}'>Lamda Max</td>
+                                        <td colspan='1'>{{$criteria->lamda['sumLamda']}}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td colspan='{{(count($criteria->eigen) + 1)}}'>IR Variable</td>
+                                        <td colspan='1'>{{$criteria->lamda['IR']}}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td colspan='{{(count($criteria->eigen) + 1)}}'>Consistency Index (CI)</td>
+                                        <td colspan='1'>{{$criteria->lamda['CI']}}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td colspan='{{(count($criteria->eigen) + 1)}}'>Consistency Ratio = CI / IR</td>
+                                        <td colspan='1'>{{$criteria->lamda['constant']}}</td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td colspan='{{(count($criteria->eigen) + 1)}}'>Consistency Status</td>
+                                        <td colspan='1'>
+                                            @if (is_numeric($criteria->lamda['constant']) && $criteria->lamda['constant'] < 0.1)
+                                                <span class="badge badge-success">Consistent</span>
+                                            @else
+                                                <span class="badge badge-danger">inConsistent</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -197,15 +262,7 @@
                     h_alternative.html(data.options);
                 }
             });
-            // showAlternativeRatio($(this).val());
         });
 
-        function showAlternativeRatio(criteria) {
-            var row = tbAlternativeRatio.insertRow(-1);
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            cell1.innerHTML = "NEW CELL1";
-            cell2.innerHTML = "NEW CELL2";
-        }
     </script>
 @endsection

@@ -57,11 +57,23 @@ class RatioCriteriaController extends Controller
                 continue;
             }
             $dataQuantity = (count($value) - 1);
-            $avgEigen[$nameCriteria] = $value['totalEigen'] / $dataQuantity;
-            $lamda[$nameCriteria] = $avgEigen[$nameCriteria] * $sumCol[$nameCriteria];
-            $sumLamda += $lamda[$nameCriteria];
-            $CI = ($sumLamda - $dataQuantity) / ($dataQuantity - 1);
-            $constant = $CI / self::IR[$dataQuantity - 2];
+//            $avgEigen[$nameCriteria] = $value['totalEigen'] / $dataQuantity;
+            $avgEigen[$nameCriteria] = RatioAlternativeController::getAverage($value['totalEigen'],$dataQuantity);
+//            $lamda[$nameCriteria] = $avgEigen[$nameCriteria] * $sumCol[$nameCriteria];
+            $lamda[$nameCriteria] = RatioAlternativeController::getMultiply($avgEigen[$nameCriteria],$sumCol[$nameCriteria]);
+//            $sumLamda += $lamda[$nameCriteria];
+//            $CI = ($sumLamda - $dataQuantity) / ($dataQuantity - 1);
+//            $constant = $CI / self::IR[$dataQuantity - 2];
+
+            if (is_numeric($lamda[$nameCriteria]) && is_numeric($sumLamda)) {
+                $sumLamda += $lamda[$nameCriteria];
+                $CI = ($sumLamda - $dataQuantity) / ($dataQuantity - 1);
+                $constant = round($CI / self::IR[$dataQuantity - 2], 5);
+            } else {
+                $sumLamda = "N/A";
+                $CI = "N/A";
+                $constant = "N/A";
+            }
         }
 
 
@@ -79,7 +91,9 @@ class RatioCriteriaController extends Controller
     public static function generate()
     {
         $matrix = RatioCriteriaController::showCriteria();
+        Log::debug("matrix " . json_encode($matrix));
         $eigen = RatioCriteriaController::eigen($matrix);
+        Log::debug("eigen " . json_encode($eigen));
 
         $sumCol = 0;
         if ($matrix)
@@ -133,36 +147,32 @@ class RatioCriteriaController extends Controller
         foreach ($criteria as $matrixColumn) {
             $column = $matrixColumn['id'];
             $nameColumn = $matrixColumn['name'];
-            $sumCol = 0;
-            $validate_exist = Ratio_criteria::Where('v_criteria_id', $column)
-                ->orWhere('h_criteria_id', $column)->count();
-            if ($validate_exist < 1) {
-                continue;
-            }
+
             foreach ($criteria as $matrixRow) {
                 $row = $matrixRow['id'];
                 $nameRow = $matrixRow['name'];
                 $dataRatio = Ratio_criteria::where('v_criteria_id', $column)
-                    ->where('h_criteria_id', $row);
+                    ->select('value')
+                    ->where('h_criteria_id', $row)->first();
 
-                if ($column == $row) {
-                    $value = 1;
-                } else if ($dataRatio->count() == 0) {
-                    continue;
-                }
-
-                if ($column != $row) {
-                    $value = $dataRatio->select('value')->first();
-                    $value = $value->value;
+                if ($dataRatio) {
+                    $value = $dataRatio->value;
+                } else {
+                    $value = "N/A";
                 }
                 $matrix[$nameRow][$nameColumn] = $value;
             }
         }
         foreach ($matrix as $columnName => $columnVal) {
-            $devider = self::sumMatrix($columnVal);
+            $devider = RatioAlternativeController::sumMatrix($columnVal);
 
             foreach ($columnVal as $valueName => $valueMatrix) {
-                $count = $valueMatrix / (int)$devider;
+                if (!is_numeric($devider)){
+                    $count = $devider;
+                } else {
+                    $count = $valueMatrix / (int)$devider;
+                }
+
                 $eigen[$columnName][$valueName] = $count;
             }
             $matrix[$columnName] = array_merge($columnVal, array('sumCol' => $devider));
@@ -187,9 +197,17 @@ class RatioCriteriaController extends Controller
                 if ($name == 'sumCol') {
                     continue;
                 }
-                $counted = $eigenVal / $devieder;
-                $data[$key][$name] = $counted;
-                $sumEigen += $counted;
+                if (!is_numeric($devieder)) {
+                    $data[$key][$name] = "N/A";
+                    $sumEigen = 0;
+                } else {
+                    $counted = $eigenVal / $devieder;
+                    $data[$key][$name] = $counted;
+                    $sumEigen += $counted;
+                }
+//                $counted = $eigenVal / $devieder;
+//                $data[$key][$name] = $counted;
+//                $sumEigen += $counted;
             }
             $data[$key]['sumEigen'] = $sumEigen;
         }
@@ -207,16 +225,22 @@ class RatioCriteriaController extends Controller
      * Count Row array data
      *
      * @param  Array
-     * @return interger
+     * @return interger|string
      */
     public static function sumMatrix($array)
     {
-        $total = 0;
-        foreach ($array as $key => $value) {
-            $total += $value;
+        try {
+            $total = 0;
+            foreach ($array as $key => $value) {
+                $total += $value;
+            }
+
+            return $total;
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return "N/A";
         }
 
-        return $total;
     }
 
 
