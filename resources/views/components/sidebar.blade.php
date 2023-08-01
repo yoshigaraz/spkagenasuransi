@@ -6,7 +6,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fa fa-shopping-cart"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SPK</div>
+                <div class="sidebar-brand-text mx-3">AHP & SAW System</div>
             </a>
 
             <!-- Divider -->
@@ -33,7 +33,7 @@
             <!-- Nav Item - Pages Static Menu -->
             <li class="nav-item">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{{route('karyawan')}}">
                     <i class="fa fa-address-book"></i>
                     <span>Data Agen</span></a>
                 </li>
@@ -41,8 +41,7 @@
 
             <li class="nav-item">
                 <li class="nav-item">
-{{--                    <a class="nav-link" href="{{route('criteriaData')}}">--}}
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{{route('criteriaData')}}">
                     <i class="fa fa-address-book"></i>
                     <span>Data Krtiteria</span></a>
                 </li>
@@ -60,7 +59,7 @@
                         <h6 class="collapse-header"> Perhitungan Kriteria:</h6>
                         <a class="collapse-item" href="{{route('criteria')}}">Master Kriteria</a>
                         <a class="collapse-item" href="{{route('ratioCriteria')}}">Perbandingan Kriteria</a>
-                        <a class="collapse-item" href="#">Hasil Hitung Kriteria</a>
+                        {{--<a class="collapse-item" href="{{route('ratioCriteria')}}">Hasil hitung Kriteria</a>--}}
                     </div>
                 </div>
             </li>
@@ -77,7 +76,6 @@
                         <a class="collapse-item" href="{{route('alternative')}}">Master Alternatif</a>
                         <a class="collapse-item" href={{route('ratioAlternative')}}>Perbandingan Alternatif</a>
 {{--                        <a class="collapse-item" href="{{route('resultAlternative')}}">Hasil hitung Alternatif</a>--}}
-                        <a class="collapse-item" href="#">Hasil hitung Alternatif</a>
                     </div>
                 </div>
             </li>

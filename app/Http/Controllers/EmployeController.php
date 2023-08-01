@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Criteria;
+use App\Models\Data_criteria;
 use App\Models\Employe;
 use App\Models\Position;
 use App\Models\Ratio_alternative;
@@ -40,7 +41,7 @@ class EmployeController extends Controller
         $request->validate([
             'name' => 'required|string',
             'position' => 'required',
-            // 'address' => 'required',
+             'code' => 'required|unique:employes',
             // 'gender' => 'required',
             // 'date' => 'required',
         ]);
@@ -48,7 +49,7 @@ class EmployeController extends Controller
         Employe::create([
             'name' => $request->name,
             'position_id' => $request->position,
-            // 'address' => $request->address,
+             'code' => $request->code,
             // 'gender' => $request->gender,
             // 'date_in' => $request->date,
         ]);
@@ -58,21 +59,21 @@ class EmployeController extends Controller
         //     'password' => Hash::make('password'),
         // ]);
 
-        return redirect()->back()->with('message' , 'Insert Data Criteria Success');
+        return redirect()->back()->with('message' , 'Insert Data Agen Success');
     }
 
-    public function storeCriteria(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string',
-        ]);
-
-        Criteria::create([
-            'name' => $request->name,
-        ]);
-
-        return redirect()->back()->with('message' , 'Insert Data Karyawan Success');
-    }
+//    public function storeCriteria(Request $request)
+//    {
+//        $request->validate([
+//            'name' => 'required|string',
+//        ]);
+//
+//        Criteria::create([
+//            'name' => $request->name,
+//        ]);
+//
+//        return redirect()->back()->with('message' , 'Insert Data Karyawan Success');
+//    }
 
     /**
      * Update the specified resource in storage.
@@ -87,8 +88,8 @@ class EmployeController extends Controller
         if($karyawan){
             $karyawan->update([
                 'name' => $request->name,
-                'position_id' => $request->position,
-                // 'address' => $request->address,
+//                'position_id' => $request->position,
+                 'code' => $request->code,
                 // 'gender' => $request->gender,
                 // 'date_in' => $request->date,
                 ]);
@@ -105,8 +106,7 @@ class EmployeController extends Controller
      */
     public function destroy(Employe $employe)
     {
-        $existance = Ratio_alternative::where('h_alternative_id', $employe->id)
-                                      ->orWhere('v_alternative_id', $employe->id)
+        $existance = Data_criteria::where('employe_id', $employe->id)
                                       ->count();
         if ($existance > 1){
             return redirect()->back()->with(["message" => "Info : Karyawan memiliki relasi perbandingan!"]);

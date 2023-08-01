@@ -15,11 +15,12 @@ class Employe extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'code',
         'name',
         'position_id',
-        'address',
-        'gender',
-        'date_in'
+//        'address',
+//        'gender',
+//        'date_in'
     ];
 
     public static function getIdfromName($name)

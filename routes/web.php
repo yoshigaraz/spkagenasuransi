@@ -30,7 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', [Controller::class, 'dashboard'])->name('dashboard');
     Route::get('/dashboard', [Controller::class, 'dashboard'])->name('dashboard');
 
-    Route::get('/karyawan', [EmployeController::class, 'index'])->name('karyawan');
+    Route::get('/agen', [EmployeController::class, 'index'])->name('karyawan');
     Route::post('/inputKaryawan', [EmployeController::class, 'store'])->name('inputKaryawan');
     Route::post('/updateKaryawan', [EmployeController::class, 'update'])->name('updateKaryawan');
     Route::post('/inputKaryawan', [EmployeController::class, 'store'])->name('inputKaryawan');
