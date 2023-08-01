@@ -18,5 +18,6 @@ class Data_criteria extends Model
         'employe_id',
         'criteria_id',
         'value',
+        'period',
     ];
 }

@@ -24,8 +24,7 @@
                                         <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
                                             src="img/undraw_posting_photo.svg" alt="...">
                                     </div>
-                                    <p>Sistem yang akan dibangun adalah sebuah sistem pendukung keputusan pemberian gaji kepada karyawan menggunakan metode analytical hierarchy proses dimana kinerja karyawan dapat dinilai dengan parameter yang ditentukan.
-                                     Seluruh kinerja karyawan tersebut dapat dirangking dan pemberian bonus dapat diberikan kepada karyawan dengan peringkat terbaik</p>
+                                    <p>Sistem ini dibuat untuk mendukung keputusan pemilihan agen asuransi terbaik dengan cara membandingkan perhitungan menggunakan metode <b>Konvensional, metode Analytical Hierarchy Process (AHP), dan metode Simple Additive Weighting (SAW). </b></p>
                                 </div>
                             </div>
                         </div>

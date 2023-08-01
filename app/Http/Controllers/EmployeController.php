@@ -22,7 +22,9 @@ class EmployeController extends Controller
     {
         $data = (object)[
             'employe' => Employe::join('positions', 'employes.position_id', '=', 'positions.id')
-                        ->select('employes.*', 'positions.name as position')->get(),
+                        ->select('employes.*', 'positions.name as position')
+                ->orderBy('employes.name')
+                ->get(),
             'position' => Position::all(),
         ];
 

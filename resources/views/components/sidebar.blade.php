@@ -43,7 +43,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('criteriaData')}}">
                     <i class="fa fa-address-book"></i>
-                    <span>Data Krtiteria</span></a>
+                    <span>Data Pencapaian Agen</span></a>
                 </li>
             </li>
             <!-- Nav Item - Utilities Collapse Menu -->
