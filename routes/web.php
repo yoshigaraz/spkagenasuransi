@@ -7,6 +7,7 @@ use App\Http\Controllers\CriteriaController;
 use App\Http\Controllers\DataCriteriaController;
 use App\Http\Controllers\EmployeController;
 use App\Http\Controllers\PayoutController;
+use App\Http\Controllers\RankController;
 use App\Http\Controllers\RatioAlternativeController;
 use App\Http\Controllers\RatioCriteriaController;
 use Illuminate\Support\Facades\Route;
@@ -93,6 +94,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/deleteUser/{id}', [Controller::class, 'deleteUser'])->name('deleteUser');
 
     Route::get('/print/{date}', [Controller::class, 'print'])->name('print');
+
+    Route::get('/rank', [RankController::class, 'index'])->name('rank');
+    Route::get('/getRank', [RankController::class, 'getRank'])->name('getRank');
 });
 
 
