@@ -280,13 +280,11 @@ class RatioAlternativeController extends Controller
         return redirect()->back()->with('message', 'Input Data Sukses');
     }
 
-    public function destroy($criterias_id, $v_id, $h_id)
+    public function destroy($v_id, $h_id)
     {
-        $ratio = Ratio_alternative::where('criteria_id', $criterias_id)
-            ->where("v_alternative_id", $v_id)
+        $ratio = Ratio_alternative::where("v_alternative_id", $v_id)
             ->where("h_alternative_id", $h_id)->first();
-        $reverseratio = Ratio_alternative::where('criteria_id', $criterias_id)
-            ->where("v_alternative_id", $h_id)
+        $reverseratio = Ratio_alternative::where("v_alternative_id", $h_id)
             ->where("h_alternative_id", $v_id)->first();
 
         $ratio->delete();
@@ -300,7 +298,7 @@ class RatioAlternativeController extends Controller
         $data = Ratio_alternative::join('alternatives as v_alternatives', 'ratio_alternatives.v_alternative_id', '=', 'v_alternatives.id')
             ->join('alternatives as h_alternatives', 'ratio_alternatives.h_alternative_id', '=', 'h_alternatives.id')
             ->join('criterias', 'ratio_alternatives.criteria_id', '=', 'criterias.id')
-            ->select('ratio_alternatives.value', 'v_alternatives.description as v_name', 'h_alternatives.description as h_name', 'v_alternatives.id as v_id', 'h_alternatives.id as h_id', 'criterias.name as criteria')
+            ->select('ratio_alternatives.value', 'v_alternatives.description as v_name', 'h_alternatives.description as h_name', 'v_alternatives.id as v_id', 'h_alternatives.id as h_id', 'criterias.name as criteria', 'criterias.id as criteria_id')
             ->orderBy('ratio_alternatives.criteria_id', 'ASC')->get();
 
         return $data;

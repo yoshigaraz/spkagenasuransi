@@ -47,7 +47,7 @@ Route::middleware(['auth'])->group(function () {
         }
         return view('pages.ratioAlternative')->with('data', $data);
     })->name('resultAlternative');
-    Route::get('/deleteRatioAlternative/{criterias_id}/{v_id}/{h_id}', [RatioAlternativeController::class, 'destroy'])->name('deleteRatioAlternative');
+    Route::get('/deleteRatioAlternative/{v_id}/{h_id}', [RatioAlternativeController::class, 'destroy'])->name('deleteRatioAlternative');
     Route::post('/massRatioAlternative', [RatioAlternativeController::class, 'massUpdate'])->name('massRatioAlternative');
 
     Route::get('/criteria', [CriteriaController::class, 'index'])->name('criteria');

@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3858ad13-33e9-4efc-8ee7-0d40fba583fc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/public/css/select2.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/select2.min.js" afterDir="false" />
+    <list default="true" id="3858ad13-33e9-4efc-8ee7-0d40fba583fc" name="Default Changelist" comment="Fix Data Pencapaian Agen">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/DataCriteriaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/DataCriteriaController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/EmployeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/EmployeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/Data_criteria.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Data_criteria.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/components/sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/sidebar.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/dashboard.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pages/criteriaData.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/criteriaData.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pages/employe.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/employe.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/RatioAlternativeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/RatioAlternativeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pages/ratioAlternative.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pages/ratioAlternative.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,45 +19,47 @@
     <session id="1387562123">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="11" />
+          <entry key="project.closed" value="12" />
           <entry key="project.open.time.0" value="2" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.5" value="1" />
           <entry key="project.open.time.7" value="3" />
           <entry key="project.open.time.8" value="2" />
-          <entry key="project.open.time.9" value="2" />
-          <entry key="project.opened" value="12" />
+          <entry key="project.open.time.9" value="3" />
+          <entry key="project.opened" value="13" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+          <entry key="config" value="1" />
           <entry key="env" value="1" />
+          <entry key="gitignore" value="1" />
           <entry key="log" value="1" />
-          <entry key="php" value="88" />
+          <entry key="php" value="91" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key=".env file" value="1" />
-          <entry key="Blade" value="36" />
-          <entry key="PHP" value="52" />
-          <entry key="PLAIN_TEXT" value="1" />
+          <entry key="Blade" value="37" />
+          <entry key="PHP" value="54" />
+          <entry key="PLAIN_TEXT" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="env" value="32" />
-          <entry key="php" value="9484" />
-          <entry key="txt" value="46" />
+          <entry key="php" value="9518" />
+          <entry key="txt" value="61" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key=".env file" value="32" />
-          <entry key="Blade" value="3437" />
-          <entry key="PHP" value="6047" />
-          <entry key="PLAIN_TEXT" value="46" />
+          <entry key="Blade" value="3450" />
+          <entry key="PHP" value="6068" />
+          <entry key="PLAIN_TEXT" value="61" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages">
@@ -80,8 +74,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/pages/criteriaData.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="152">
-              <caret line="86" column="31" lean-forward="true" selection-start-line="86" selection-start-column="31" selection-end-line="86" selection-end-column="31" />
+            <state relative-caret-position="1462">
+              <caret line="86" column="31" selection-start-line="86" selection-start-column="31" selection-end-line="86" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -90,16 +84,38 @@
         <entry file="file://$PROJECT_DIR$/resources/views/pages/employe.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="136">
-              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+              <caret line="11" selection-start-line="11" selection-end-line="11" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resources/views/dashboard.blade.php">
+        <entry file="file://$PROJECT_DIR$/resources/views/pages/ratioAlternative.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="26" column="72" selection-start-line="26" selection-start-column="72" selection-end-line="26" selection-end-column="72" />
+            <state relative-caret-position="170">
+              <caret line="97" column="80" selection-start-line="97" selection-start-column="58" selection-end-line="97" selection-end-column="80" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/web.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="158">
+              <caret line="49" column="148" selection-start-line="49" selection-start-column="126" selection-end-line="49" selection-end-column="148" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RatioAlternativeController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="107">
+              <caret line="282" column="26" selection-start-line="282" selection-start-column="20" selection-end-line="282" selection-end-column="26" />
+              <folding>
+                <element signature="e#40#67#0#PHP" expanded="true" />
+                <element signature="e#590#605#0#PHP" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -107,7 +123,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/DataCriteriaController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
+            <state relative-caret-position="578">
               <caret line="39" column="48" selection-start-line="39" selection-start-column="48" selection-end-line="39" selection-end-column="48" />
               <folding>
                 <element signature="e#40#67#0#PHP" expanded="true" />
@@ -140,6 +156,9 @@
       <find>avg</find>
       <find>log</find>
       <find>karyawan</find>
+      <find>destro</find>
+      <find>destroy</find>
+      <find>deleteRatioAlternative</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -169,9 +188,7 @@
         <option value="$PROJECT_DIR$/resources/views/components/alternative_select.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/pages/criteria.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/pages/alternative.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/RatioAlternativeController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/RatioCriteriaController.php" />
-        <option value="$PROJECT_DIR$/resources/views/pages/ratioAlternative.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/pages/ratioCriteria.blade.php" />
         <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/database/migrations/2023_08_01_204900_alter_employes_add_code.php" />
@@ -189,6 +206,8 @@
         <option value="$PROJECT_DIR$/resources/views/pages/criteriaData.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/pages/employe.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/dashboard.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/RatioAlternativeController.php" />
+        <option value="$PROJECT_DIR$/resources/views/pages/ratioAlternative.blade.php" />
       </list>
     </option>
   </component>
@@ -324,6 +343,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -435,7 +455,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -485,7 +504,8 @@
       <workItem from="1690639350487" duration="2010000" />
       <workItem from="1690804107762" duration="8571000" />
       <workItem from="1690851351475" duration="9505000" />
-      <workItem from="1690886281724" duration="17205000" />
+      <workItem from="1690886281724" duration="18921000" />
+      <workItem from="1690965166793" duration="1373000" />
     </task>
     <task id="LOCAL-00001" summary="adad">
       <created>1690444812409</created>
@@ -515,17 +535,31 @@
       <option name="project" value="LOCAL" />
       <updated>1690899584548</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Fix Data Pencapaian Agen">
+      <created>1690904604448</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1690904604448</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Fix Data Pencapaian Agen">
+      <created>1690906225014</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1690906225014</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="81693000" />
+    <option name="totallyTimeSpent" value="84782000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="687" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.351417" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.35789475" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -577,7 +611,8 @@
     <MESSAGE value="adad" />
     <MESSAGE value="Fix Ratio Criteria dan Alternatif" />
     <MESSAGE value="Fix Data Agen" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix Data Agen" />
+    <MESSAGE value="Fix Data Pencapaian Agen" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix Data Pencapaian Agen" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/config/database.php">
@@ -708,31 +743,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RatioAlternativeController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="168" column="20" lean-forward="true" selection-start-line="168" selection-start-column="20" selection-end-line="168" selection-end-column="20" />
-          <folding>
-            <element signature="e#40#67#0#PHP" expanded="true" />
-            <element signature="e#590#605#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RatioCriteriaController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="406">
           <caret line="114" column="25" selection-start-line="114" selection-start-column="25" selection-end-line="114" selection-end-column="25" />
-          <folding>
-            <element signature="e#40#64#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/pages/ratioAlternative.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="224" column="93" lean-forward="true" selection-start-line="224" selection-start-column="49" selection-end-line="224" selection-end-column="93" />
         </state>
       </provider>
     </entry>
@@ -754,13 +768,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="183">
           <caret line="38" column="19" selection-start-line="38" selection-start-column="19" selection-end-line="38" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/web.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="33" column="23" selection-start-line="33" selection-start-column="23" selection-end-line="33" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -879,9 +886,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/criteriaData.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1462">
+          <caret line="86" column="31" selection-start-line="86" selection-start-column="31" selection-end-line="86" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/DataCriteriaController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
+        <state relative-caret-position="578">
           <caret line="39" column="48" selection-start-line="39" selection-start-column="48" selection-end-line="39" selection-end-column="48" />
           <folding>
             <element signature="e#40#67#0#PHP" expanded="true" />
@@ -889,17 +903,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/pages/criteriaData.blade.php">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="86" column="31" lean-forward="true" selection-start-line="86" selection-start-column="31" selection-end-line="86" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/pages/employe.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        <state relative-caret-position="119">
+          <caret line="7" column="12" lean-forward="true" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="12" />
         </state>
       </provider>
     </entry>
@@ -907,6 +914,41 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="26" column="72" selection-start-line="26" selection-start-column="72" selection-end-line="26" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/employe.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RatioAlternativeController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="107">
+          <caret line="282" column="26" selection-start-line="282" selection-start-column="20" selection-end-line="282" selection-end-column="26" />
+          <folding>
+            <element signature="e#40#67#0#PHP" expanded="true" />
+            <element signature="e#590#605#0#PHP" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/web.config">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/web.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="158">
+          <caret line="49" column="148" selection-start-line="49" selection-start-column="126" selection-end-line="49" selection-end-column="148" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/ratioAlternative.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="97" column="80" selection-start-line="97" selection-start-column="58" selection-end-line="97" selection-end-column="80" />
         </state>
       </provider>
     </entry>

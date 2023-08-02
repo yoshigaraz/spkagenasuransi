@@ -96,7 +96,7 @@
                                     <td>{{ $r['value'] }}</td>
                                     <td>
                                         <a href="{{route('deleteRatioAlternative' , ['v_id' => $r['v_id'], 'h_id' => $r['h_id']])}}"
-                                           class="btn btn-danger btn-circle">
+                                           class="btn btn-danger btn-sm">
                                             <i class="fas fa-trash"></i>
                                         </a>
                                     </td>
