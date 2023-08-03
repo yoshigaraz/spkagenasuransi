@@ -72,9 +72,9 @@
                                 <th>Kode</th>
                                 <th>Nama</th>
                                 <th>Hasil</th>
-                                <th>Detail</th>
                             </tr>
                             </thead>
+
                         </table>
                     </div>
                 </div>
@@ -92,9 +92,24 @@
                                 <th>Kode</th>
                                 <th>Nama</th>
                                 <th>Total</th>
-                                <th>Detail</th>
                             </tr>
                             </thead>
+                            <tbody>
+                            <?php
+                            $num = 1;
+                            ?>
+                            @foreach($saw as $key => $value)
+                                <tr>
+                                    <td>{{$num}}</td>
+                                    <td>{{$value->code}}</td>
+                                    <td>{{$value->name}}</td>
+                                    <td>{{round($value->total_point,4)}}</td>
+                                </tr>
+                                <?php
+                                $num++;
+                                ?>
+                            @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>
