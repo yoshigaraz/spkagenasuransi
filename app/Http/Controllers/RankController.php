@@ -19,14 +19,16 @@ class RankController extends Controller
     public function index()
     {
         $period = Session::get('period');
-        $conventional = self::conventional($period);
-        $saw = self::saw($period);
-        Log::debug(json_encode($saw));
+        $conventional = $this->conventional($period);
+        $saw = $this->saw($period);
+        $ahp = $this->ahp($period);
+        Log::debug(json_encode($ahp));
 
         return view('pages.rank', [
             'period' => $period,
             'conventional' => $conventional,
-            'saw' => $saw
+            'saw' => $saw,
+            'ahp' => $ahp
         ]);
     }
 
@@ -35,7 +37,7 @@ class RankController extends Controller
         return Redirect::route('rank')->with(['period' => $request->period]);
     }
 
-    private function conventional($period)
+    private function getEmploye($period)
     {
         $employe = Employe::join('data_criterias', 'data_criterias.employe_id', '=', 'employes.id')
             ->where('data_criterias.period', $period)
@@ -44,6 +46,13 @@ class RankController extends Controller
             ])
             ->distinct()
             ->get();
+
+        return $employe;
+    }
+
+    private function conventional($period)
+    {
+        $employe = $this->getEmploye($period);
 
         foreach ($employe as $e) {
             $points = self::getConventionalPoint($e->id, $period);
@@ -109,13 +118,7 @@ class RankController extends Controller
 
     private function saw($period)
     {
-        $employe = Employe::join('data_criterias', 'data_criterias.employe_id', '=', 'employes.id')
-            ->where('data_criterias.period', $period)
-            ->select([
-                'employes.*'
-            ])
-            ->distinct()
-            ->get();
+        $employe = $this->getEmploye($period);
 
         foreach ($employe as $e) {
             $alternatives = self::getAlternative($e->id, $period);
@@ -163,5 +166,70 @@ class RankController extends Controller
 //        Log::debug(DB::getQueryLog());
 
         return $data->get();
+    }
+
+    private function ahp($period)
+    {
+        $employe = $this->getEmploye($period);
+        $matrix = RatioCriteriaController::showCriteria();
+        $eigen = RatioCriteriaController::eigen($matrix);
+//        Log::debug(json_encode($eigen));
+
+        $totalPoint = 0;
+
+        foreach ($employe as $e) {
+            $alternatives = self::getAlternative($e->id, $period);
+
+            foreach ($alternatives as $a) {
+                //get eigen criteria
+                $totEigen = 0;
+                $divider = 1;
+                foreach ($eigen as $key => $value) {
+                    if ($key == $a->criteria) {
+                        $totEigen = $value['totalEigen'];
+                    } elseif ($key == 'sumEigen') {
+                        $divider = $value['totalEigen'];
+                    }
+                }
+                $avgEigen = RatioAlternativeController::getAverage($totEigen, $divider);
+                $a->criteria_eigen = $avgEigen;
+
+                //get eigen alternative
+                $altMatrix = RatioAlternativeController::showAlternative($a->criteria_id);
+                $altEigen = RatioAlternativeController::eigen($altMatrix);
+                $totEigenAlt = 0;
+                $dividerAlt = 1;
+                foreach ($altEigen as $key => $value) {
+                    if ($key == $a->alternative) {
+                        $totEigenAlt = $value['totalEigen'];
+                    } elseif ($key == 'sumEigen') {
+                        $dividerAlt = $value['totalEigen'];
+                    }
+                }
+                $avgEigenAlt = RatioAlternativeController::getAverage($totEigenAlt, $dividerAlt);
+                $a->alternative_eigen = $avgEigenAlt;
+                $point = RatioAlternativeController::getMultiply($a->criteria_eigen, $a->alternative_eigen);
+                $a->point = $point;
+
+                $totalPoint = $this->getSum($totalPoint, $point);
+            }
+
+            $e->alternative = $alternatives;
+            $e->total_point = $totalPoint;
+        }
+
+        $sorted = $employe->sortByDesc('total_point');
+
+        return $sorted;
+    }
+
+    private function getSum($total, $value)
+    {
+        try {
+            $total += $value;
+        } catch (\Exception $e) {
+            $total = "N/A";
+        }
+        return $total;
     }
 }

@@ -55,7 +55,7 @@ class RatioAlternativeController extends Controller
         foreach ($criteria as $c) {
             $c->alternative = Alternative::where('criteria_id', $c->id)->orderBy('id')->get();
 //            $matrixRatioRow = self::showAlternative($c->alternative);
-            $dataMatrix = self::showAlternative($c);
+            $dataMatrix = self::showAlternative($c->id);
             $c->matrix = $dataMatrix;
             $eigen = self::eigen($dataMatrix);
             $c->eigen = $eigen;
@@ -133,9 +133,9 @@ class RatioAlternativeController extends Controller
      *
      * @return array
      */
-    public static function showAlternative($criteria)
+    public static function showAlternative($criteria_id)
     {
-        $alternative = Alternative::where('criteria_id', $criteria->id)->orderBy('id')->get();
+        $alternative = Alternative::where('criteria_id', $criteria_id)->orderBy('id')->get();
         $matrix = array();
         $eigen = array();
 

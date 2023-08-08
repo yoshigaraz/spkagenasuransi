@@ -74,7 +74,22 @@
                                 <th>Hasil</th>
                             </tr>
                             </thead>
-
+                            <tbody>
+                            <?php
+                            $num = 1;
+                            ?>
+                            @foreach($ahp as $key => $value)
+                                <tr>
+                                    <td>{{$num}}</td>
+                                    <td>{{$value->code}}</td>
+                                    <td>{{$value->name}}</td>
+                                    <td>{{round($value->total_point,4)}}</td>
+                                </tr>
+                                <?php
+                                $num++;
+                                ?>
+                            @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>
