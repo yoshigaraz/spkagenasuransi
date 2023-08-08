@@ -8,6 +8,7 @@ use App\Models\Data_criteria;
 use App\Models\Employe;
 use App\Models\Ratio_alternative;
 use App\Models\Ratio_criteria;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -127,8 +128,8 @@ class RankController extends Controller
             $alternatives = self::getAlternative($e->id, $period);
             $totalPoint = 0;
             foreach ($alternatives as $alternative) {
-                $maxWeight = Alternative::where('criteria_id',$alternative->criteria_id)->max('weight');
-                if ($maxWeight == null){
+                $maxWeight = Alternative::where('criteria_id', $alternative->criteria_id)->max('weight');
+                if ($maxWeight == null) {
                     $benefit = 0;
                 } else {
                     $benefit = $alternative->weight / $maxWeight;
@@ -232,5 +233,38 @@ class RankController extends Controller
             $total = "N/A";
         }
         return $total;
+    }
+
+    public function printConventional($period)
+    {
+        $data = [
+            'period' => $period,
+            'criteria' => Criteria::orderBy('id')->get(),
+            'conventional' => $this->conventional($period)
+        ];
+        $pdf = Pdf::loadView('pdf.conventional', $data);
+        return $pdf->stream();
+    }
+
+    public function printSaw($period)
+    {
+        $data = [
+            'period' => $period,
+            'criteria' => Criteria::orderBy('id')->get(),
+            'saw' => $this->saw($period)
+        ];
+        $pdf = Pdf::loadView('pdf.saw', $data);
+        return $pdf->stream();
+    }
+
+    public function printAhp($period)
+    {
+        $data = [
+            'period' => $period,
+            'criteria' => Criteria::orderBy('id')->get(),
+            'ahp' => $this->ahp($period)
+        ];
+        $pdf = Pdf::loadView('pdf.ahp', $data);
+        return $pdf->stream();
     }
 }

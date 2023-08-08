@@ -97,6 +97,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/rank', [RankController::class, 'index'])->name('rank');
     Route::get('/getRank', [RankController::class, 'getRank'])->name('getRank');
+    Route::get('/rank/print/conventional/{period}', [RankController::class, 'printConventional'])->name('rank.print.conventional');
+    Route::get('/rank/print/ahp/{period}', [RankController::class, 'printAhp'])->name('rank.print.ahp');
+    Route::get('/rank/print/saw/{period}', [RankController::class, 'printSaw'])->name('rank.print.saw');
 });
 
 

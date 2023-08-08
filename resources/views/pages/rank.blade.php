@@ -198,7 +198,8 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <a type="button" class="btn btn-danger"><i class="fa fa-print"></i> Print</a>
+                        <a href="{{url('/rank/print/conventional/'.$period)}}" target="_blank" type="button"
+                           class="btn btn-danger"><i class="fa fa-print"></i> Print</a>
                     </div>
                 </div>
             </div>
@@ -247,7 +248,8 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <a type="button" class="btn btn-danger"><i class="fa fa-print"></i> Print</a>
+                        <a href="{{url('/rank/print/ahp/'.$period)}}" target="_blank" type="button"
+                           class="btn btn-danger"><i class="fa fa-print"></i> Print</a>
                     </div>
                 </div>
             </div>
@@ -296,7 +298,8 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <a type="button" class="btn btn-danger"><i class="fa fa-print"></i> Print</a>
+                        <a href="{{url('/rank/print/saw/'.$period)}}" target="_blank" type="button"
+                           class="btn btn-danger"><i class="fa fa-print"></i> Print</a>
                     </div>
                 </div>
             </div>
