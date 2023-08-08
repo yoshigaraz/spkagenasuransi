@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alternative;
+use App\Models\Criteria;
 use App\Models\Data_criteria;
 use App\Models\Employe;
 use App\Models\Ratio_alternative;
@@ -19,16 +20,18 @@ class RankController extends Controller
     public function index()
     {
         $period = Session::get('period');
+        $criteria = Criteria::orderBy('id')->get();
         $conventional = $this->conventional($period);
         $saw = $this->saw($period);
         $ahp = $this->ahp($period);
-        Log::debug(json_encode($ahp));
+//        Log::debug(json_encode($ahp));
 
         return view('pages.rank', [
             'period' => $period,
             'conventional' => $conventional,
             'saw' => $saw,
-            'ahp' => $ahp
+            'ahp' => $ahp,
+            'criteria' => $criteria
         ]);
     }
 
@@ -175,11 +178,9 @@ class RankController extends Controller
         $eigen = RatioCriteriaController::eigen($matrix);
 //        Log::debug(json_encode($eigen));
 
-        $totalPoint = 0;
-
         foreach ($employe as $e) {
             $alternatives = self::getAlternative($e->id, $period);
-
+            $totalPoint = 0;
             foreach ($alternatives as $a) {
                 //get eigen criteria
                 $totEigen = 0;
