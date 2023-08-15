@@ -25,7 +25,7 @@ class RankController extends Controller
         $conventional = $this->conventional($period);
         $saw = $this->saw($period);
         $ahp = $this->ahp($period);
-//        Log::debug(json_encode($ahp));
+        Log::debug(json_encode($saw));
 
         return view('pages.rank', [
             'period' => $period,
