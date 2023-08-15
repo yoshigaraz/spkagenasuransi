@@ -25,7 +25,7 @@ class RankController extends Controller
         $conventional = $this->conventional($period);
         $saw = $this->saw($period);
         $ahp = $this->ahp($period);
-//        Log::debug(json_encode($ahp));
+        Log::debug(json_encode($saw));
 
         return view('pages.rank', [
             'period' => $period,
@@ -221,6 +221,7 @@ class RankController extends Controller
         }
 
         $sorted = $employe->sortByDesc('total_point');
+        Log::debug(json_encode($sorted));
 
         return $sorted;
     }
@@ -259,10 +260,38 @@ class RankController extends Controller
 
     public function printAhp($period)
     {
+        $matrixCriteria = RatioCriteriaController::showCriteria();
+        $eigenCriteria = RatioCriteriaController::eigen($matrixCriteria);
+        $sumCol = 0;
+        if ($matrixCriteria)
+            $sumCol = $matrixCriteria['sumCol'];
+
+        $lamdaCriteria = RatioCriteriaController::lamda($sumCol, $eigenCriteria);
+
+        $criteria = Criteria::orderBy('id')->get();
+        foreach ($criteria as $c) {
+            $c->alternative = Alternative::where('criteria_id', $c->id)->orderBy('id')->get();
+
+            $dataMatrix = RatioAlternativeController::showAlternative($c->id);
+            $c->matrix = $dataMatrix;
+            $eigen = RatioAlternativeController::eigen($dataMatrix);
+            $c->eigen = $eigen;
+            $sumCol = 0;
+            if ($dataMatrix)
+                $sumCol = $dataMatrix['sumCol'];
+
+            $lamda = RatioAlternativeController::lamda($sumCol, $eigen);
+            $c->lamda = $lamda;
+        }
+
         $data = [
             'period' => $period,
             'criteria' => Criteria::orderBy('id')->get(),
-            'ahp' => $this->ahp($period)
+            'ahp' => $this->ahp($period),
+            'matrixCriteria' => $matrixCriteria,
+            'eigenCriteria' => $eigenCriteria,
+            'lamdaCriteria' => $lamdaCriteria,
+            'alternative' => $criteria
         ];
         $pdf = Pdf::loadView('pdf.ahp', $data);
         return $pdf->stream();
