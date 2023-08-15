@@ -144,6 +144,7 @@ class RankController extends Controller
         }
 
         $sorted = $employe->sortByDesc('total_point');
+        Log::debug(json_encode($sorted));
 
         return $sorted;
     }
@@ -221,7 +222,7 @@ class RankController extends Controller
         }
 
         $sorted = $employe->sortByDesc('total_point');
-        Log::debug(json_encode($sorted));
+//        Log::debug(json_encode($sorted));
 
         return $sorted;
     }
@@ -249,9 +250,15 @@ class RankController extends Controller
 
     public function printSaw($period)
     {
+        $criteria = Criteria::orderBy('id')->get();
+        foreach ($criteria as $crit) {
+            $alt = Alternative::where('criteria_id', $crit->id)->orderBy('id')->get();
+            $crit->alternative = $alt;
+        }
+
         $data = [
             'period' => $period,
-            'criteria' => Criteria::orderBy('id')->get(),
+            'criteria' => $criteria,
             'saw' => $this->saw($period)
         ];
         $pdf = Pdf::loadView('pdf.saw', $data);
