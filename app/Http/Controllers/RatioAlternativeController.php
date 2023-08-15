@@ -51,7 +51,7 @@ class RatioAlternativeController extends Controller
 //        //  dd($ratio);
 //
 //        return view('pages.alternative')->with('data', $data);
-        $criteria = Criteria::orderBy('id')->get();;
+        $criteria = Criteria::orderBy('id')->get();
         foreach ($criteria as $c) {
             $c->alternative = Alternative::where('criteria_id', $c->id)->orderBy('id')->get();
 //            $matrixRatioRow = self::showAlternative($c->alternative);

@@ -24,51 +24,51 @@
         </div>
         <!-- Content Row -->
         <div class="row">
-            <div class="col-lg-4 mb-4">
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <div class="row">
-                            <div class="col-md-10">
-                                <h6 class="m-0 font-weight-bold text-primary">Metode Konvensional</h6>
-                            </div>
-                            <div class="col-md-2 float-right">
-                                <a class="btn btn-sm btn-circle btn-info" data-toggle="modal"
-                                   data-target="#modalKonvensional"><i class="fa fa-info-circle"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <table class="table" id="tableKonvensional">
-                            <thead>
-                            <tr>
-                                <th width="10">#</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                <th>Total Poin</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            $num = 1;
-                            ?>
-                            @foreach($conventional as $key => $value)
-                                <tr>
-                                    <td>{{$num}}</td>
-                                    <td>{{$value->code}}</td>
-                                    <td>{{$value->name}}</td>
-                                    <td>{{$value->total}}</td>
-                                </tr>
-                                <?php
-                                $num++;
-                                ?>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 mb-4">
-                <div class="card shadow mb-4">
+            {{--<div class="col-lg-4 mb-4">--}}
+                {{--<div class="card shadow mb-4">--}}
+                    {{--<div class="card-header py-3">--}}
+                        {{--<div class="row">--}}
+                            {{--<div class="col-md-10">--}}
+                                {{--<h6 class="m-0 font-weight-bold text-primary">Metode Konvensional</h6>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-md-2 float-right">--}}
+                                {{--<a class="btn btn-sm btn-circle btn-info" data-toggle="modal"--}}
+                                   {{--data-target="#modalKonvensional"><i class="fa fa-info-circle"></i></a>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div class="card-body">--}}
+                        {{--<table class="table" id="tableKonvensional">--}}
+                            {{--<thead>--}}
+                            {{--<tr>--}}
+                                {{--<th width="10">#</th>--}}
+                                {{--<th>Kode</th>--}}
+                                {{--<th>Nama</th>--}}
+                                {{--<th>Total Poin</th>--}}
+                            {{--</tr>--}}
+                            {{--</thead>--}}
+                            {{--<tbody>--}}
+                            {{--<?php--}}
+                            {{--$num = 1;--}}
+                            {{--?>--}}
+                            {{--@foreach($conventional as $key => $value)--}}
+                                {{--<tr>--}}
+                                    {{--<td>{{$num}}</td>--}}
+                                    {{--<td>{{$value->code}}</td>--}}
+                                    {{--<td>{{$value->name}}</td>--}}
+                                    {{--<td>{{$value->total}}</td>--}}
+                                {{--</tr>--}}
+                                {{--<?php--}}
+                                {{--$num++;--}}
+                                {{--?>--}}
+                            {{--@endforeach--}}
+                            {{--</tbody>--}}
+                        {{--</table>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            <div class="col-lg-6 mb-6">
+                <div class="card shadow mb-6">
                     <div class="card-header py-3">
                         <div class="row">
                             <div class="col-md-10">
@@ -110,8 +110,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 mb-4">
-                <div class="card shadow mb-4">
+            <div class="col-lg-6 mb-6">
+                <div class="card shadow mb-6">
                     <div class="card-header py-3">
                         <div class="row">
                             <div class="col-md-10">
