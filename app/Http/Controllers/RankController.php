@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\VarDumper\Cloner\Data;
+use Illuminate\Database\Eloquent\Collection;
 
 class RankController extends Controller
 {
@@ -22,14 +23,14 @@ class RankController extends Controller
     {
         $period = Session::get('period');
         $criteria = Criteria::orderBy('id')->get();
-        $conventional = $this->conventional($period);
+//        $conventional = $this->conventional($period);
         $saw = $this->saw($period);
         $ahp = $this->ahp($period);
-        Log::debug(json_encode($saw));
+//        Log::debug(json_encode($saw));
 
         return view('pages.rank', [
             'period' => $period,
-            'conventional' => $conventional,
+//            'conventional' => $conventional,
             'saw' => $saw,
             'ahp' => $ahp,
             'criteria' => $criteria
@@ -38,7 +39,8 @@ class RankController extends Controller
 
     public function getRank(Request $request)
     {
-        return Redirect::route('rank')->with(['period' => $request->period]);
+        $period =  $request->year.'-'.$request->month;
+        return Redirect::route('rank')->with(['period' => $period]);
     }
 
     private function getEmploye($period)
@@ -75,6 +77,13 @@ class RankController extends Controller
 //        Log::debug(json_encode($employe));
     }
 
+    /**
+     * ini fungsi untuk get data kriterianya pegawai yang di join dengan table ref kriteria
+     * dan table kriteria
+     * @param $employe
+     * @param $period
+     * @return data
+     */
     private static function getDataCriteria($employe, $period)
     {
         $data = Data_criteria::join('criterias', 'criterias.id', '=', 'data_criterias.criteria_id')
@@ -90,12 +99,34 @@ class RankController extends Controller
         return $data;
     }
 
+    /**
+     * $data variable untuk get data criteria dengan id pegawai dan periode nya
+     * setelah datanya ada, maka data akan di looping satu persatu.
+     * jika kriteria id nya itu 1 maka value pegawainya akan di bagi 5000000
+     * jika kriteria id nya itu 2 maka value pegawainya akan di bagi 10000000
+     *
+     * jika kriteria id nya itu 4 maka akan di cek lagi :
+     *  a. jika nilai pegawai dibawah 50 maka akan di berikan point 1
+     *  b. jika nilai pegawai diantara 51 sampai 70 maka akan diberikan point 2
+     *  c. jika nilai pegawai diantara 71 sampai 85 maka akan diberikan point 3
+     *  d. jika nilai pegawai diatas 85 maka akan diberikan point 5
+     *  e. jika nilai nya 0 maka akan diberikan point 0
+     *
+     * jika kriteria id nya itu selain 1,2, dan 4 maka diberikan point sesuai nilainya
+     *
+     * @param $employe
+     * @param $period
+     *
+     * @return data
+     */
     private static function getConventionalPoint($employe, $period)
     {
         $data = self::getDataCriteria($employe, $period);
 
+
         foreach ($data as $d) {
             //hardcode
+
             if ($d->criteria_id == 1) {
                 $d->point = round($d->value / 5000000);
             } elseif ($d->criteria_id == 2) {
@@ -120,6 +151,17 @@ class RankController extends Controller
         return $data;
     }
 
+    /**
+     * ini  perhitungan saw
+     * $employe itu ambil data pegawai dari fungsi getEmploye diatas
+     * kemudian di looping satu persatu
+     * lalu pada $alternatives akan di panggil fungsi getAlternative yg ada dibawah fungsi ini
+     * lalu data pegawai yg telah di join dengan referensi alternatif akan di looping
+     * lalu akan dimulai perhitungan metode SAW dengan mempertimbangkan nilai max weight
+     *
+     * @param $period
+     * @return hasil yg telah di urutkan total point nya dari tertinggi ke rendah
+     */
     private function saw($period)
     {
         $employe = $this->getEmploye($period);
@@ -128,12 +170,16 @@ class RankController extends Controller
             $alternatives = self::getAlternative($e->id, $period);
             $totalPoint = 0;
             foreach ($alternatives as $alternative) {
+                // ambil nilai tertinggi weight
                 $maxWeight = Alternative::where('criteria_id', $alternative->criteria_id)->max('weight');
+                // jika nilai weight nda ada, maka benefitnya 0. kalau ada nilai tertingginya maka
+                // dibagi nilai weight nya dengan nilai maxWeightnya untuk mendapatkan benefitnya
                 if ($maxWeight == null) {
                     $benefit = 0;
                 } else {
                     $benefit = $alternative->weight / $maxWeight;
                 }
+
                 $point = $benefit * $alternative->criteria_weight;
                 $alternative->benefit = $benefit;
                 $alternative->point = $point;
@@ -144,11 +190,16 @@ class RankController extends Controller
         }
 
         $sorted = $employe->sortByDesc('total_point');
-        Log::debug(json_encode($sorted));
+//        Log::debug(json_encode($sorted));
 
         return $sorted;
     }
 
+    /**
+     * @param $employe
+     * @param $period
+     * @return data join dengan referensi alternatives
+     */
     private function getAlternative($employe, $period)
     {
         $data = Data_criteria::join('criterias', 'criterias.id', '=', 'data_criterias.criteria_id')

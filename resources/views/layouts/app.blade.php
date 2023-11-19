@@ -22,6 +22,8 @@
     <link href="css/datatables.min.css" rel="stylesheet">
     <link href="css/select2.min.css" rel="stylesheet">
 
+    @stack('up')
+
 </head>
 
 <body id="page-top">
@@ -148,7 +150,7 @@
     </script>
     @endif
 
-    @yield('js')
+    @stack('down')
 </body>
 
 </html>

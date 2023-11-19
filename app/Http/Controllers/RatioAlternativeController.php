@@ -218,6 +218,7 @@ class RatioAlternativeController extends Controller
         $sumLamda = 0;
         foreach ($arrayEigen as $nameAlternative => $value) {
             Log::debug("-----------" . $nameAlternative);
+            Log::debug(json_encode($value));
             if ($nameAlternative == 'sumEigen') {
                 continue;
             }

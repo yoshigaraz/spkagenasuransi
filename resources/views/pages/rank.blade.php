@@ -14,9 +14,47 @@
                         <form class="form-inline" method="GET" action="{{route('getRank')}}">
                             <div class="form-group">
                                 <label for="period">Pilih Periode</label>
-                                <input type="month" class="form-control" name="period" value="{{$period}}"/>
+                                <div>
+                                    @php
+                                        $bulanRange = range(1,12);
+                                        $tahunRange = range(2015,2025);
+                                    @endphp
+                                    <select id="bulanSelect" class="form-control" name="month">
+                                        <option value="">Pilih Bulan</option>
+                                        @foreach($bulanRange as $bulan)
+                                            <option value="{{$bulan}}">{{$bulan}}</option>
+                                        @endforeach
+                                    </select>
+                                    {{--<select class="form-control" name="month">--}}
+                                        {{--<option value="">Pilih Bulan</option>--}}
+                                        {{--<option value="01">01</option>--}}
+                                        {{--<option value="02">02</option>--}}
+                                        {{--<option value="03">03</option>--}}
+                                        {{--<option value="04">04</option>--}}
+                                        {{--<option value="05">05</option>--}}
+                                        {{--<option value="06">06</option>--}}
+                                        {{--<option value="07">07</option>--}}
+                                        {{--<option value="08">08</option>--}}
+                                        {{--<option value="09">09</option>--}}
+                                        {{--<option value="10">10</option>--}}
+                                        {{--<option value="11">11</option>--}}
+                                        {{--<option value="12">12</option>--}}
+                                    {{--</select>--}}
+                                </div>
+
+                                <div>
+                                    <select class="form-control" name="year">
+                                        <option value="">Pilih Tahun</option>
+                                        @foreach($tahunRange as $tahun)
+                                            <option value="{{$tahun}}">{{$tahun}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                {{--<input type="number" class="form-control"  id="yearInput" name="year" min="2020" max="2025" placeholder="Tahun">--}}
+                                {{--<input type="month" class="form-control" name="period" id="period" onchange="ubahTampilanBulan(this)" value="{{$period}}"/>--}}
                             </div>
-                            <button type="submit" class="btn btn-primary">Hitung</button>
+                            <button type="submit" onclick="getMonthNumber()" class="btn btn-primary">Hitung</button>
                         </form>
                     </div>
                 </div>
@@ -81,7 +119,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table" id="tableAhp">
+                        <table class="table" id="myTable">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -91,19 +129,13 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <?php
-                            $num = 1;
-                            ?>
                             @foreach($ahp as $key => $value)
                                 <tr>
-                                    <td>{{$num}}</td>
+                                    <td>{{$loop->iteration}}</td>
                                     <td>{{$value->code}}</td>
                                     <td>{{$value->name}}</td>
                                     <td>{{round($value->total_point,4)}}</td>
                                 </tr>
-                                <?php
-                                $num++;
-                                ?>
                             @endforeach
                             </tbody>
                         </table>
@@ -124,7 +156,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table" id="table">
+                        <table class="table" id="myTableSaw">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -134,175 +166,46 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <?php
-                            $num = 1;
-                            ?>
                             @foreach($saw as $key => $value)
                                 <tr>
-                                    <td>{{$num}}</td>
+                                    <td>{{$loop->iteration}}</td>
                                     <td>{{$value->code}}</td>
                                     <td>{{$value->name}}</td>
                                     <td>{{round($value->total_point,4)}}</td>
                                 </tr>
-                                <?php
-                                $num++;
-                                ?>
                             @endforeach
                             </tbody>
                         </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal Konvensional-->
-        <div class="modal fade" id="modalKonvensional" role="dialog">
-            <div class="modal-dialog modal-xl">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Metode Konvensional</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table" id="tableKonvensionalModal">
-                            <thead>
-                            <tr>
-                                <th width="10">#</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                @foreach($criteria as $c)
-                                    <th class="text-center">{{$c->name}}</th>
-                                @endforeach
-                                <th class="text-center">Total Poin</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            $num = 1;
-                            ?>
-                            @foreach($conventional as $key => $value)
-                                <tr>
-                                    <td>{{$num}}</td>
-                                    <td>{{$value->code}}</td>
-                                    <td>{{$value->name}}</td>
-                                    @foreach($value->points as $k => $v)
-                                        <td class="text-center">{{$v->point}}</td>
-                                    @endforeach
-                                    <th class="text-center">{{$value->total}}</th>
-                                </tr>
-                                <?php
-                                $num++;
-                                ?>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="{{url('/rank/print/conventional/'.$period)}}" target="_blank" type="button"
-                           class="btn btn-danger"><i class="fa fa-print"></i> Print</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal AHP-->
-        <div class="modal fade" id="modalAhp" role="dialog">
-            <div class="modal-dialog modal-xl">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Metode AHP</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table" id="tableAhp">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                @foreach($criteria as $c)
-                                    <th class="text-center">{{$c->name}}</th>
-                                @endforeach
-                                <th class="text-center">Hasil</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            $num = 1;
-                            ?>
-                            @foreach($ahp as $key => $value)
-                                <tr>
-                                    <td>{{$num}}</td>
-                                    <td>{{$value->code}}</td>
-                                    <td>{{$value->name}}</td>
-                                    @foreach($value->alternative as $k => $v)
-                                        <td class="text-center">{{round($v->point, 4)}}</td>
-                                    @endforeach
-                                    <th>{{round($value->total_point,4)}}</th>
-                                </tr>
-                                <?php
-                                $num++;
-                                ?>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="{{url('/rank/print/ahp/'.$period)}}" target="_blank" type="button"
-                           class="btn btn-danger"><i class="fa fa-print"></i> Print</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal SAW-->
-        <div class="modal fade" id="modalSaw" role="dialog">
-            <div class="modal-dialog modal-xl">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Metode SAW</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table" id="table">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Kode</th>
-                                <th>Nama</th>
-                                @foreach($criteria as $c)
-                                    <th class="text-center">{{$c->name}}</th>
-                                @endforeach
-                                <th class="text-center">Total</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            $num = 1;
-                            ?>
-                            @foreach($saw as $key => $value)
-                                <tr>
-                                    <td>{{$num}}</td>
-                                    <td>{{$value->code}}</td>
-                                    <td>{{$value->name}}</td>
-                                    @foreach($value->alternative as $k => $v)
-                                        <td class="text-center">{{round($v->point, 4)}}</td>
-                                    @endforeach
-                                    <th class="text-center">{{round($value->total_point,4)}}</th>
-                                </tr>
-                                <?php
-                                $num++;
-                                ?>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="{{url('/rank/print/saw/'.$period)}}" target="_blank" type="button"
-                           class="btn btn-danger"><i class="fa fa-print"></i> Print</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+@push('up')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.css" />
+
+@endpush
+@push('down')
+
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.js"></script>
+
+    <script>
+        let table = new DataTable('#myTable');
+
+        let tableSaw = new DataTable('#myTableSaw');
+    </script>
+    <script>
+        function ubahTampilanBulan(input) {
+            const date = new Date(input.value);
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1; // Mengambil bulan (mulai dari 0)
+            const monthString = month < 10 ? '0' + month : '' + month; // Format bulan 2 digit
+
+            console.log(month)
+            input.value = year + '-' + monthString // Menampilkan dalam format YYYY-MM
+        }
+
+    </script>
+@endpush
