@@ -22,14 +22,23 @@ class RankController extends Controller
     public function index()
     {
         $period = Session::get('period');
+        Log::debug("period : " . $period);
         $criteria = Criteria::orderBy('id')->get();
 //        $conventional = $this->conventional($period);
         $saw = $this->saw($period);
         $ahp = $this->ahp($period);
+
+        $period_year = substr($period,0,4);
+        $period_month = substr($period,5,2);
+
+//        Log::debug('period : ' . $period);
+//        Log::debug(substr($period,5,2));
 //        Log::debug(json_encode($saw));
 
         return view('pages.rank', [
             'period' => $period,
+            'period_year' => $period_year,
+            'period_month' => $period_month,
 //            'conventional' => $conventional,
             'saw' => $saw,
             'ahp' => $ahp,

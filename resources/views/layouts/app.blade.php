@@ -21,12 +21,56 @@
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link href="css/datatables.min.css" rel="stylesheet">
     <link href="css/select2.min.css" rel="stylesheet">
+    <link href="css/sweetalert.css" rel="stylesheet">
+    <style type="text/css">
+        .modallo {
+            display:    none;
+            position:   fixed;
+            z-index:    1000;
+            top:        0;
+            left:       0;
+            height:     100%;
+            width:      100%;
+            background: rgba( 255, 255, 255, .8 )
+                /*url('http://i.stack.imgur.com/FhHRx.gif')*/
+            url('{{asset('/img/ajax-loader.gif')}}')
+            50% 50%
+            no-repeat;
+        }
+
+        /* When the body has the loading class, we turn
+           the scrollbar off with overflow:hidden */
+        body.loading .modallo {
+            overflow: hidden;
+        }
+
+        /* Anytime the body has the loading class, our
+           modal element will be visible */
+        body.loading .modallo {
+            display: block;
+        }
+    </style>
+
+    <style type="text/css">
+        #loader {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.75) url("{{asset('/img/ajax-loader.gif')}}") no-repeat center center;
+            z-index: 99999;
+        }
+    </style>
 
     @stack('up')
 
 </head>
 
-<body id="page-top">
+<body id="body">
+<div id='loader'></div>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -129,6 +173,7 @@
             </div>
         </div>
     </div>
+    <div class="modallo"><!-- Place at bottom of page --></div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -142,6 +187,7 @@
 
     <script src="js/datatables.min.js"></script>
     <script src="js/select2.min.js"></script>
+    <script src="js/sweetalert.min.js"></script>
     @if (session()->has('message'))
     <script>
         $(function(){
@@ -151,6 +197,7 @@
     @endif
 
     @stack('down')
+
 </body>
 
 </html>
